@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne} from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne, RelationId} from "typeorm";
 import {Author} from './Author'
 import { Field, Int, ObjectType } from "type-graphql";
 
@@ -18,6 +18,7 @@ export class Book extends BaseEntity {
     pageCount: number;
 
     @ManyToOne(type => Author, author => author.books)
+    @Field()
     author: Author;
 
     @Field(type => Int)

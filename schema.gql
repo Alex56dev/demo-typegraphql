@@ -13,6 +13,7 @@ type Book {
   id: Int!
   name: String!
   pageCount: Int!
+  author: Author!
   authorId: Int!
 }
 

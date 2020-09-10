@@ -13,7 +13,9 @@ import { CreateBook } from "../inputs/CreateBook";
 export default class BookResolver {
   @Query(returns => [Book])
   async fetchBooks(): Promise<Book[]> {
-    return (await Book.find());
+    return (await Book.getRepository()
+      .find({relations: ["author"]})  
+    );
   }
 
   // @Query(returns => [Book])
@@ -44,10 +46,8 @@ export default class BookResolver {
   // }
 
 
-  // @FieldResolver()
-  // author(@Root() bookData: BookData) {
-  //   return authors.filter(author => {
-  //     return author.authorId === bookData.authorId;
-  //   })[0];
-  // }
+  @FieldResolver()
+  authorId(@Root() book: Book) {
+    return book.author.id;
+  }
 }

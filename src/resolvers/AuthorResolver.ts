@@ -13,8 +13,9 @@ import { Author } from "../entities/Author";
 export default class {
   @Query(returns => [Author])
   async fetchAuthors(): Promise<Author[]> {
-    console.log((await Author.find()).length)
-    return (await Author.find());
+    return (await Author.getRepository()
+      .find({relations: ['books']})
+    );
   }
 
   // @Mutation(returns => Author)
