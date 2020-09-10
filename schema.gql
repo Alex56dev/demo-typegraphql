@@ -17,7 +17,23 @@ type Book {
   authorId: Int!
 }
 
+input CreateAuthor {
+  name: String!
+}
+
+input CreateBook {
+  name: String!
+  pageCount: Int!
+  authorId: Int!
+}
+
+type Mutation {
+  createBook(data: CreateBook!): Book!
+  createAuthor(data: CreateAuthor!): Author!
+}
+
 type Query {
   fetchBooks: [Book!]!
+  booksByAuthor(author_name: String!): [Book!]!
   fetchAuthors: [Author!]!
 }

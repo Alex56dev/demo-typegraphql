@@ -7,7 +7,9 @@ import {
   Mutation
 } from "type-graphql";
 import { Book } from "../entities/Book";
+import { Author } from "../entities/Author";
 import { CreateBook } from "../inputs/CreateBook";
+import {Like} from "typeorm";
 
 @Resolver(of => Book)
 export default class BookResolver {
@@ -18,36 +20,26 @@ export default class BookResolver {
     );
   }
 
-  // @Query(returns => [Book])
-  // booksByAuthor(@Arg('author_name') author_name: string): BookData[]
-  // {    
-  //   var author: AuthorData = authors.filter(author => {
-  //     return author.name === author_name;
-  //   })[0];
+  @Query(returns => [Book])
+  async booksByAuthor(@Arg('author_name') author_name: string): Promise<Book[]>
+  {    
+    return (await Book.getRepository().createQueryBuilder("book")
+      .leftJoinAndSelect("book.author", "author")
+      .where("author.name ilike :name", { name: `%${author_name}%` })
+      .getMany()
+    );
+  }
 
-  //   return books.filter(book => {
-  //     return book.authorId === author.authorId;
-  //   })
-  // }
+  @Mutation(returns => Book)
+  async createBook(@Arg("data") createBookData: CreateBook): Promise<Book>
+  {
+      var book = new Book();
+      book.name = createBookData.name;
+      book.pageCount = createBookData.pageCount;
+      book.authorId = createBookData.authorId;
+      await book.save();
+      await book.reload();
 
-  // @Mutation(returns => Book)
-  // createBook(@Arg("data") createBookData: CreateBook): BookData
-  // {
-  //     var findBooks = books.filter(book => {
-  //       return book.bookId === createBookData.bookId;
-  //     })
-  //     if (findBooks.length > 0) {
-  //       throw new Error("Книга с таким bookId уже существует");
-  //     }
-
-  //     books.push(createBookData)
-
-  //     return createBookData;
-  // }
-
-
-  @FieldResolver()
-  authorId(@Root() book: Book) {
-    return book.author.id;
+      return book;
   }
 }

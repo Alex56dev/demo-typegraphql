@@ -18,20 +18,13 @@ export default class {
     );
   }
 
-  // @Mutation(returns => Author)
-  // createAuthor(@Arg("data") createAuthorData: CreateAuthor): AuthorData 
-  // {
-  //     var findAuthors = authors.filter(author => {
-  //       return author.authorId === createAuthorData.authorId || 
-  //         author.name === createAuthorData.name;
-  //     })
+  @Mutation(returns => Author)
+  async createAuthor(@Arg("data") createAuthorData: CreateAuthor): Promise<Author>
+  {
+      var author = new Author();
+      author.name = createAuthorData.name;
+      await author.save();
 
-  //     if (findAuthors.length > 0) {
-  //       throw new Error("Автор с такими данными уже существует");
-  //     }
-
-  //     authors.push(createAuthorData)
-
-  //     return createAuthorData;
-  // }
+      return author;
+  }
 }

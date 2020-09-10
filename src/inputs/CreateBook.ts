@@ -2,9 +2,6 @@ import { InputType, Field, Int } from 'type-graphql'
  
 @InputType()
 export class CreateBook {
-    @Field(type => Int)
-    bookId: number;
-
     @Field()
     name: string;
 

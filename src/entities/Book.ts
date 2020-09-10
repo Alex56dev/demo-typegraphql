@@ -22,5 +22,6 @@ export class Book extends BaseEntity {
     author: Author;
 
     @Field(type => Int)
+    @Column({ nullable: true })
     authorId: number;
 }
