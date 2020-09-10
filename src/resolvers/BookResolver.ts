@@ -38,7 +38,7 @@ export default class BookResolver {
       book.pageCount = createBookData.pageCount;
       book.authorId = createBookData.authorId;
       await book.save();
-      await book.reload();
+      await book.reload(); // чтобы обработалась связь с автором
 
       return book;
   }
