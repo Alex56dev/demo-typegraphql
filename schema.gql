@@ -18,5 +18,6 @@ type Book {
 
 type Query {
   fetchBooks: [Book!]!
+  booksByAuthor(author_name: String!): [Book!]!
   fetchAuthors: [Author!]!
 }
