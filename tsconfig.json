@@ -1,15 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es2016",
+    "target": "es2020",
     "module": "commonjs",
-    "lib": ["dom", "es2016", "esnext.asynciterable"],
+    "lib": ["es2020", "es2020.promise", "es2020.bigint", "es2020.string"],
     "moduleResolution": "node",
     "outDir": "./dist",
     "strict": true,
     "strictPropertyInitialization": false,
     "sourceMap": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["./src/**/*"]
 }

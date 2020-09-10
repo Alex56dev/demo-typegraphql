@@ -6,49 +6,48 @@ import {
   Root,
   Mutation
 } from "type-graphql";
-import { books, authors, BookData, AuthorData } from "../data";
-import Book from "../schemas/Book";
+import { Book } from "../entities/Book";
 import { CreateBook } from "../inputs/CreateBook";
 
 @Resolver(of => Book)
 export default class BookResolver {
   @Query(returns => [Book])
-  fetchBooks(): BookData[] {
-    return books;
+  async fetchBooks(): Promise<Book[]> {
+    return (await Book.find());
   }
 
-  @Query(returns => [Book])
-  booksByAuthor(@Arg('author_name') author_name: string): BookData[]
-  {    
-    var author: AuthorData = authors.filter(author => {
-      return author.name === author_name;
-    })[0];
+  // @Query(returns => [Book])
+  // booksByAuthor(@Arg('author_name') author_name: string): BookData[]
+  // {    
+  //   var author: AuthorData = authors.filter(author => {
+  //     return author.name === author_name;
+  //   })[0];
 
-    return books.filter(book => {
-      return book.authorId === author.authorId;
-    })
-  }
+  //   return books.filter(book => {
+  //     return book.authorId === author.authorId;
+  //   })
+  // }
 
-  @Mutation(returns => Book)
-  createBook(@Arg("data") createBookData: CreateBook): BookData
-  {
-      var findBooks = books.filter(book => {
-        return book.bookId === createBookData.bookId;
-      })
-      if (findBooks.length > 0) {
-        throw new Error("Книга с таким bookId уже существует");
-      }
+  // @Mutation(returns => Book)
+  // createBook(@Arg("data") createBookData: CreateBook): BookData
+  // {
+  //     var findBooks = books.filter(book => {
+  //       return book.bookId === createBookData.bookId;
+  //     })
+  //     if (findBooks.length > 0) {
+  //       throw new Error("Книга с таким bookId уже существует");
+  //     }
 
-      books.push(createBookData)
+  //     books.push(createBookData)
 
-      return createBookData;
-  }
+  //     return createBookData;
+  // }
 
 
-  @FieldResolver()
-  author(@Root() bookData: BookData) {
-    return authors.filter(author => {
-      return author.authorId === bookData.authorId;
-    })[0];
-  }
+  // @FieldResolver()
+  // author(@Root() bookData: BookData) {
+  //   return authors.filter(author => {
+  //     return author.authorId === bookData.authorId;
+  //   })[0];
+  // }
 }

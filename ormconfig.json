@@ -1,0 +1,18 @@
+{
+   "type": "postgres",
+   "host": "localhost",
+   "port": 5432,
+   "username": "typegraphql",
+   "password": "password",
+   "database": "typegraphql",
+   "synchronize": true,
+   "logging": false,
+   "entities": [
+      "./dist/entities/**/*.js"
+   ],
+   "cli": {
+      "entitiesDir": "src/entity",
+      "migrationsDir": "src/migration",
+      "subscribersDir": "src/subscriber"
+   }
+}

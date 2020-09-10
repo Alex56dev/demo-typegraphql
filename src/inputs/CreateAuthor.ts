@@ -1,8 +1,7 @@
-import {AuthorData} from '../data'
 import {InputType, Field, Int} from 'type-graphql'
 
 @InputType()
-export class CreateAuthor implements AuthorData {
+export class CreateAuthor {
 
     @Field(type => Int)
     authorId: number

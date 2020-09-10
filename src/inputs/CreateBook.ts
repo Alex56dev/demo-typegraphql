@@ -1,8 +1,7 @@
-import { BookData } from "../data"
 import { InputType, Field, Int } from 'type-graphql'
  
 @InputType()
-export class CreateBook implements BookData {
+export class CreateBook {
     @Field(type => Int)
     bookId: number;
 
