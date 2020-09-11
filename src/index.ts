@@ -4,12 +4,12 @@ import { buildSchema } from "type-graphql";
 import BookResolver from "./resolvers/BookResolver";
 import AuthorResolver from "./resolvers/AuthorResolver";
 import { createConnection } from "typeorm"
-import { seedDatabase } from "./data"
+import { seedDatabase, clearDatabase } from "./data"
 
 async function bootstrap() {
   const connection = await createConnection();
-
-  seedDatabase();
+  await clearDatabase();
+  await seedDatabase();
 
   const schema = await buildSchema({
     resolvers: [BookResolver, AuthorResolver],
