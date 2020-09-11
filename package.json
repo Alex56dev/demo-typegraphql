@@ -13,8 +13,10 @@
   "dependencies": {
     "@types/ws": "^7.2.6",
     "graphql-yoga": "^1.16.7",
+    "pg": "^8.3.3",
     "reflect-metadata": "^0.1.12",
-    "type-graphql": "^0.15.0"
+    "type-graphql": "^0.15.0",
+    "typeorm": "^0.2.26"
   },
   "devDependencies": {
     "@types/node": "^10.12.18",

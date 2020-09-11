@@ -9,7 +9,6 @@ import {
 import { Book } from "../entities/Book";
 import { Author } from "../entities/Author";
 import { CreateBook } from "../inputs/CreateBook";
-import {Like} from "typeorm";
 
 @Resolver(of => Book)
 export default class BookResolver {
