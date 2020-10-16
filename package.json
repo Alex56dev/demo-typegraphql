@@ -14,6 +14,7 @@
   "dependencies": {
     "@types/ws": "^7.2.6",
     "axios": "^0.20.0",
+    "dataloader": "^2.0.0",
     "graphql-yoga": "^1.16.7",
     "pg": "^8.3.3",
     "reflect-metadata": "^0.1.12",
