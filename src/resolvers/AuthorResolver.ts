@@ -15,16 +15,17 @@ import { Context } from "graphql-yoga/dist/types";
 import { GraphQLResolveInfo } from 'graphql'
 import DataLoader from "dataloader";
 import { getConnection, In, Repository } from 'typeorm'
+import { BookRepository } from "../repositories/BookRepository";
 
 @Resolver(of => Author)
 export default class {
   private authorRepository: Repository<Author>;
 
-  private bookRepository: Repository<Book>;
+  private bookRepository: BookRepository;
 
   constructor() {
     this.authorRepository = getConnection().getRepository(Author)
-    this.bookRepository = getConnection().getRepository(Book)
+    this.bookRepository = getConnection().getCustomRepository(BookRepository)
   }
 
   @Query(returns => [Author])
@@ -49,7 +50,7 @@ export default class {
     let dl = dataloaders.get(info.fieldNodes);
     if (!dl) {
       dl = new DataLoader(async (ids: any) => {
-        const books = (await this.bookRepository.find({authorId: In(ids)}))
+        const books = (await this.bookRepository.findByAuthorIds(ids))
         const sortedBooks = ids.map((id: number) => books.filter((x: Book) => x.authorId === id))
 
         return [];

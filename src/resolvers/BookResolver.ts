@@ -15,15 +15,16 @@ import { Context } from "graphql-yoga/dist/types";
 import { GraphQLResolveInfo } from 'graphql'
 import DataLoader from "dataloader";
 import { getConnection, Repository } from "typeorm"
+import { BookRepository } from "../repositories/BookRepository";
 
 @Resolver(of => Book)
 export default class BookResolver {
-  private bookRepository: Repository<Book>;
+  private bookRepository: BookRepository;
 
   private authorRepository: Repository<Author>;
 
   constructor() {
-    this.bookRepository = getConnection().getRepository(Book)
+    this.bookRepository = getConnection().getCustomRepository(BookRepository)
     this.authorRepository = getConnection().getRepository(Author)
   }
 
@@ -35,11 +36,7 @@ export default class BookResolver {
   @Query(returns => [Book])
   async booksByAuthor(@Arg('author_name') author_name: string): Promise<Book[]>
   {    
-    return (await this.bookRepository.createQueryBuilder("book")
-      .leftJoinAndSelect("book.author", "author")
-      .where("author.name ilike :name", { name: `%${author_name}%` })
-      .getMany()
-    );
+    return this.bookRepository.findBooksByAuthorName(author_name);
   }
 
   @Mutation(returns => Book)
