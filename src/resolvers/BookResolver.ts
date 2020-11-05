@@ -14,18 +14,28 @@ import { CreateBook } from "../inputs/CreateBook";
 import { Context } from "graphql-yoga/dist/types";
 import { GraphQLResolveInfo } from 'graphql'
 import DataLoader from "dataloader";
+import { getConnection, Repository } from "typeorm"
 
 @Resolver(of => Book)
 export default class BookResolver {
+  private bookRepository: Repository<Book>;
+
+  private authorRepository: Repository<Author>;
+
+  constructor() {
+    this.bookRepository = getConnection().getRepository(Book)
+    this.authorRepository = getConnection().getRepository(Author)
+  }
+
   @Query(returns => [Book])
   async fetchBooks(): Promise<Book[]> {
-    return (await Book.find());
+    return (await this.bookRepository.find());
   }
 
   @Query(returns => [Book])
   async booksByAuthor(@Arg('author_name') author_name: string): Promise<Book[]>
   {    
-    return (await Book.getRepository().createQueryBuilder("book")
+    return (await this.bookRepository.createQueryBuilder("book")
       .leftJoinAndSelect("book.author", "author")
       .where("author.name ilike :name", { name: `%${author_name}%` })
       .getMany()
@@ -39,8 +49,7 @@ export default class BookResolver {
       book.name = createBookData.name;
       book.pageCount = createBookData.pageCount;
       book.authorId = createBookData.authorId;
-      await book.save();
-      await book.reload(); // чтобы обработалась связь с автором
+      await this.bookRepository.save(book)
 
       return book;
   }
@@ -56,7 +65,7 @@ export default class BookResolver {
     let dl = dataloaders.get(info.fieldNodes)
     if (!dl) {
       dl = new DataLoader(async (ids: any) => {
-        const authors = (await Author.findByIds(ids))
+        const authors = (await this.authorRepository.findByIds(ids))
         const sortedAuthors = ids.map((id: number) => authors.find(x => x.id === id))
 
         return sortedAuthors;

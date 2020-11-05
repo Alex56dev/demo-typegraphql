@@ -6,16 +6,15 @@ import AuthorResolver from "./resolvers/AuthorResolver";
 import { createConnection } from "typeorm"
 import { seedDatabase, clearDatabase } from "./data"
 import { ContextParameters } from "graphql-yoga/dist/types";
-import DataLoader from "dataloader";
 
 async function bootstrap() {
-  const connection = await createConnection();
+  const connection = await createConnection();  
   await clearDatabase();
   await seedDatabase();
 
   const schema = await buildSchema({
     resolvers: [BookResolver, AuthorResolver],
-    emitSchemaFile: true,
+    emitSchemaFile: true    
   });
 
   const server = new GraphQLServer({
