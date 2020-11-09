@@ -53,7 +53,7 @@ export default class {
         const books = (await this.bookRepository.findByAuthorIds(ids))
         const sortedBooks = ids.map((id: number) => books.filter((x: Book) => x.authorId === id))
 
-        return [];
+        return sortedBooks;
       })
       dataloaders.set(info.fieldNodes, dl)
     }

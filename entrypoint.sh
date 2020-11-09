@@ -1,1 +1,5 @@
-npm run build && npm start
+#!/bin/bash
+
+npm run build 
+
+npm start
