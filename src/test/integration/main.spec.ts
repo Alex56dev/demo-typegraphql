@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { Author } from "../entities/Author";
+import { Author } from "../..//entities/Author";
 
 async function fetchAuthors(): Promise<AxiosResponse>
 {
