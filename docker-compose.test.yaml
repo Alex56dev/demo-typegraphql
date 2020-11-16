@@ -8,7 +8,11 @@ services:
             POSTGRES_DB: typegraphql
 
     app:
-        build: .
+        build:
+            context: .
+            cache_from:
+                - alexrozhnov/demo-typegraphql:app_latest
+        image: alexrozhnov/demo-typegraphql:app_latest
         depends_on: 
             - postgres
         ports: 
