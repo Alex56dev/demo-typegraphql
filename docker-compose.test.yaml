@@ -13,6 +13,8 @@ services:
             cache_from:
                 - alexrozhnov/demo-typegraphql:app_latest
         image: alexrozhnov/demo-typegraphql:app_latest
+        environment: 
+            NODE_ENV: test
         depends_on: 
             - postgres
         ports: 

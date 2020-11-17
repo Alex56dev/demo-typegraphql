@@ -1,7 +1,10 @@
 #!/bin/bash
 
-npm install
+if [[ $NODE_ENV = 'development' ]]
+then
+    npm install
 
-npm run build
+    npm run build
+fi
 
 npm start
