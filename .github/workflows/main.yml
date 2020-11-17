@@ -45,7 +45,7 @@ jobs:
           docker-compose -f docker-compose.test.yaml pull app || true
           docker-compose -f docker-compose.test.yaml build
 
-      - name: Build and run app
+      - name: Run app
         run: docker-compose -f docker-compose.test.yaml up -d
 
       - name: Await start
