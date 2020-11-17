@@ -1,6 +1,4 @@
-FROM node:12
-
-RUN npm install tslint typescript -g
+FROM node:12 as base
 
 WORKDIR /app
 
@@ -15,3 +13,7 @@ RUN npm run build
 EXPOSE 4000
 
 ENTRYPOINT ["./entrypoint.sh"]
+
+FROM base as dev
+
+RUN npm install tslint typescript -g

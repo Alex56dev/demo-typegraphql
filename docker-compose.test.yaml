@@ -10,6 +10,7 @@ services:
     app:
         build:
             context: .
+            target: base
             cache_from:
                 - alexrozhnov/demo-typegraphql:app_latest
         image: alexrozhnov/demo-typegraphql:app_latest
