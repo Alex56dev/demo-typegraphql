@@ -1,5 +1,5 @@
 import { InputType, Field, Int } from 'type-graphql'
- 
+
 @InputType()
 export class CreateBook {
     @Field()
@@ -9,5 +9,5 @@ export class CreateBook {
     pageCount: number;
 
     @Field(type => Int)
-    authorId: number;    
+    authorId: number;
 }

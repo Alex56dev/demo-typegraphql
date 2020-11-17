@@ -8,7 +8,23 @@ on: [push, pull_request]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  Lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install NodeJs
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+
+      - name: Install TSLint
+        run: npm install tslint typescript -g
+
+      - name: Check linter
+        run: tslint -c tslint.json 'src/**/*.ts'
+
   Test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -26,7 +42,7 @@ jobs:
 
       - name: Build app
         run: |
-          docker-compose -f docker-compose.test.yaml pull app
+          docker-compose -f docker-compose.test.yaml pull app || true
           docker-compose -f docker-compose.test.yaml build
 
       - name: Build and run app

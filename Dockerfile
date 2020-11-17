@@ -1,5 +1,7 @@
 FROM node:12
 
+RUN npm install tslint typescript -g
+
 WORKDIR /app
 
 COPY package*.json ./
@@ -11,7 +13,5 @@ COPY . .
 RUN npm run build
 
 EXPOSE 4000
-
-VOLUME [ "/app/node_modules", "/app/dist" ]
 
 ENTRYPOINT ["./entrypoint.sh"]

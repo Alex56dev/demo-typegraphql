@@ -14,7 +14,7 @@ async function fetchAuthors(): Promise<AxiosResponse>
                 pageCount
               }
             }
-          } 
+          }
         `
   });
 }
@@ -32,11 +32,11 @@ async function createAuthor(name: string): Promise<AxiosResponse> {
   });
 }
 
-async function createBook(name: string, page_count: Number, author_id: Number): Promise<AxiosResponse> {
+async function createBook(name: string, pageCount: number, authorId: number): Promise<AxiosResponse> {
   return axios.post("http://localhost:4000", {
     query: `
       mutation {
-        createBook(data: {name: "${name}", pageCount: ${page_count}, authorId: ${author_id}}) {
+        createBook(data: {name: "${name}", pageCount: ${pageCount}, authorId: ${authorId}}) {
           name
           id
           authorId
@@ -46,7 +46,7 @@ async function createBook(name: string, page_count: Number, author_id: Number): 
   });
 }
 
-function findAuthorById(id: Number, authors: [Author]): Author
+function findAuthorById(id: number, authors: [Author]): Author
 {
   return authors.filter((author) => {
     return author.id === id;
@@ -54,34 +54,34 @@ function findAuthorById(id: Number, authors: [Author]): Author
 }
 
 test("Test fetchAuthors", async () => {
-    var response = await fetchAuthors();
-    var data = response.data.data;
+    const response = await fetchAuthors();
+    const data = response.data.data;
     expect(data.fetchAuthors[0].name).toEqual("Стивен Кинг");
     expect(data.fetchAuthors[0].books[0].name).toEqual("Темная башня");
     expect(data.fetchAuthors.length).toBeGreaterThanOrEqual(2);
 })
 
 test("Create author and book", async () => {
-  var name = "Айзек Азимов";
-  var response = await createAuthor(name);
-  var data = response.data.data;
+  const name = "Айзек Азимов";
+  let response = await createAuthor(name);
+  let data = response.data.data;
   expect(data.createAuthor.name).toEqual(name);
-  var new_author_id = data.createAuthor.id;
+  const newAuthorId = data.createAuthor.id;
 
   response = await fetchAuthors();
   data = response.data.data;
-  var new_author = findAuthorById(new_author_id, data.fetchAuthors);
-  expect(new_author.name).toEqual(name);
+  const newAuthor = findAuthorById(newAuthorId, data.fetchAuthors);
+  expect(newAuthor.name).toEqual(name);
 
-  var book_name = "Стальные пещеры";
-  response = await createBook(book_name, 700, new_author_id);
+  const bookName = "Стальные пещеры";
+  response = await createBook(bookName, 700, newAuthorId);
   data = response.data.data;
-  expect(data.createBook.name).toEqual(book_name);
+  expect(data.createBook.name).toEqual(bookName);
 
   response = await fetchAuthors();
   data = response.data.data;
-  var author = findAuthorById(new_author_id, data.fetchAuthors);
-  expect(author.books[0].name).toEqual(book_name);
+  const author = findAuthorById(newAuthorId, data.fetchAuthors);
+  expect(author.books[0].name).toEqual(bookName);
 })
 
 

@@ -1,8 +1,8 @@
-import { 
-  Arg, 
-  FieldResolver, 
-  Query, 
-  Resolver, 
+import {
+  Arg,
+  FieldResolver,
+  Query,
+  Resolver,
   Root,
   Ctx,
   Info,
@@ -34,15 +34,15 @@ export default class BookResolver {
   }
 
   @Query(returns => [Book])
-  async booksByAuthor(@Arg('author_name') author_name: string): Promise<Book[]>
-  {    
-    return this.bookRepository.findBooksByAuthorName(author_name);
+  async booksByAuthor(@Arg('author_name') authorName: string): Promise<Book[]>
+  {
+    return this.bookRepository.findBooksByAuthorName(authorName);
   }
 
   @Mutation(returns => Book)
   async createBook(@Arg("data") createBookData: CreateBook): Promise<Book>
   {
-      var book = new Book();
+      const book = new Book();
       book.name = createBookData.name;
       book.pageCount = createBookData.pageCount;
       book.authorId = createBookData.authorId;

@@ -37,16 +37,16 @@ async function booksByAuthor(name: string): Promise<AxiosResponse>
 }
 
 test("Test fetchBooks", async () => {
-    var response = await fetchBooks();
-    var data = response.data.data;
+    const response = await fetchBooks();
+    const data = response.data.data;
     expect(data.fetchBooks[0].name).toEqual("Темная башня");
     expect(data.fetchBooks[0].author.name).toEqual("Стивен Кинг");
     expect(data.fetchBooks.length).toBeGreaterThanOrEqual(4);
 })
 
 test("Test booksByAuthor", async () => {
-    var response = await booksByAuthor("ролинг");
-    var data = response.data.data;
+    const response = await booksByAuthor("ролинг");
+    const data = response.data.data;
     expect(data.booksByAuthor[0].name).toEqual("Гарри Поттер и философский камень");
     expect(data.booksByAuthor[0].author.name).toEqual("Джоан Ролинг");
 })

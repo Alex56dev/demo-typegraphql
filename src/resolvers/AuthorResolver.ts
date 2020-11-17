@@ -36,7 +36,7 @@ export default class {
   @Mutation(returns => Author)
   async createAuthor(@Arg("data") createAuthorData: CreateAuthor): Promise<Author>
   {
-      var author = new Author();
+      const author = new Author();
       author.name = createAuthorData.name;
       await this.authorRepository.save(author);
 
